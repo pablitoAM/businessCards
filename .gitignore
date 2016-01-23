@@ -45,3 +45,8 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+#SFTP Config
+sftp-config.json
+
+#Sublime Config
