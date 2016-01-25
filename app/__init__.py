@@ -1,10 +1,18 @@
-from flask import Flask,jsonify
+from flask import Flask,jsonify,session
 from flaskext.couchdb import CouchDBManager
+from flask.ext.session import Session
 
 app = Flask(__name__)
 app.config.from_object('app.config')
 
 print(app.config)
+
+# ===============
+# Session
+# ===============
+
+sess = Session()
+sess.init_app(app)
 
 # ===============
 # Database

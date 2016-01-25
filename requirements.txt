@@ -3,5 +3,6 @@ flask-restful
 Flask-CouchDB
 kafka-python
 requests
+Flask-Session
 formic==0.9beta8
 livereload

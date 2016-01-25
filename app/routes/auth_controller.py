@@ -9,6 +9,8 @@ PREFIX = '/auth'
 @app.route(PREFIX + '/login', methods = ['POST'])
 def login():
 	data = request.get_data()
+	# check credentials
+	# store credentials in session
 	print data;
 	return jsonify(result=data)
 
