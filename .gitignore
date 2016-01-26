@@ -50,3 +50,5 @@ Temporary Items
 sftp-config.json
 
 #Sublime Config
+*.sublime-project
+businessCards.sublime-workspace
