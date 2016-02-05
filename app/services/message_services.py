@@ -1,25 +1,28 @@
-import logging
+from app import producer, consumer
 from kafka import KafkaConsumer
 from kafka import KafkaProducer
 
+import logging
+logger = logging.getLogger(__name__)
+
 # ===============
 # Kakfa
-# ===============    
-producer = None
-consumer = None
+# ===============
 
-def initConsumer(topic, bootstrapServers):
+def initConsumer(consumer, topic, bootstrapServers):
   if(consumer == None):
     try:
       consumer = KafkaConsumer(topic, bootstrap_servers=boostrapServers)
+      logger.info("Consumer Created")
     except Exception, e:
       logger.error(str(e))
   return consumer
 
-def initProducer(topic, boostrapServers):
+def initProducer(producer, topic, boostrapServers):
   if(producer == None):
     try:
       producer = KafkaProducer(bootstrap_servers=bootstrapServers)
+      logger.info("Producer Created")
     except Exception, e:
       logger.error(str(e))
   return producer

@@ -1,7 +1,7 @@
 flask
 flask-restful
 Flask-CouchDB
-kafka-python
+# kafka-python
 requests
 Flask-Session
 formic==0.9beta8

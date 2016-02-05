@@ -2,7 +2,6 @@ import json
 from flask import Flask,jsonify,session
 from flaskext.couchdb import CouchDBManager
 from flask.ext.session import Session
-from app.services.message_services import initConsumer, initProducer
 
 app = Flask(__name__)
 app.config.from_object('app.config')
@@ -29,11 +28,15 @@ couchdb = getCouchDB(None, app)
 # ===============
 # Kafka
 # ===============
-boostrapServers = app.config['BOOSTRAP_SERVERS']
+boostrapServers = app.config['BOOTSTRAP_SERVERS']
 topic = app.config['MESSAGE_TOPIC']
 
-producer = initProducer(topic, boostrapServers)
-consumer = initConsumer(topic, boostrapServers)
+producer = None
+consumer = None
+
+from app.services.message_services import initConsumer, initProducer
+initProducer(producer, topic, boostrapServers)
+initConsumer(consumer, topic, boostrapServers)
 
 # ===============
 # Imports
