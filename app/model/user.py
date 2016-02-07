@@ -1,4 +1,4 @@
-from app import couchdb
+from app.config import database
 from flaskext.couchdb import ViewDefinition, ViewResults, Document, TextField, IntegerField, LongField, BooleanField, Row
 
 # ===============
@@ -26,7 +26,7 @@ class User(Document):
 		'active' : self.active
 		}
 
-		couchdb.add_document(User)
+		database.add_document(User)
 
 # ===============
 # Views
@@ -61,4 +61,4 @@ count_by_username = ViewDefinition('user', 'count_by_username', '''\
 		return sum;
 	}''', wrapper=Row)
 
-couchdb.add_viewdef((user_list, find_user, count_by_username))
+database.add_viewdef((user_list, find_user, count_by_username))

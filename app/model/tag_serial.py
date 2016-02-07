@@ -1,4 +1,4 @@
-from app import couchdb
+from app.config import database
 from flaskext.couchdb import ViewDefinition, ViewResults, Document, TextField, IntegerField, LongField
 
 # ===============
@@ -19,4 +19,4 @@ class TagSerial(Document):
 		'nextSerial' : self.nextSerial
 		}
 
-couchdb.add_document(User)
+database.add_document(TagSerial)

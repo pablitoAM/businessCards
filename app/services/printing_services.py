@@ -1,1 +1,0 @@
-from app.model.entities import TagSerial

@@ -1,5 +1,5 @@
-from app import couchdb
 from flaskext.couchdb import ViewResults
+from app.config import database
 from app.model.user import * 
 from app.model.exception import JsonException
 

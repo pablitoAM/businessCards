@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Printing Test</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">	
+</head>
+<body>
+	<div class="container">
+		<div class="well">
+			<button type="button" class="btn btn-info">Send Post</button>
+		</div>	
+	</div>
+
+	<!-- Javascript -->
+	<script src="https://code.jquery.com/jquery-1.12.0.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		$.ajaxSetup({ cache: false });
+		$(document).ready(function(){
+			$('button').on('click', function(){
+
+				data = {
+					username : 'test', 
+					token : 'abcdefghy'
+				}
+
+				$.ajax({
+					method: "POST",
+					url: "http://127.0.1.1/print/new/32",	
+					contentType: "application/json; charset=utf-8",				
+    				dataType: "json",
+					data: JSON.stringify(data)
+				})
+				.done(function(result) {
+					console.log(result);
+				});
+			})
+		});
+	</script>
+</body>
+</html>
