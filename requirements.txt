@@ -1,8 +1,9 @@
 flask
 flask-restful
-Flask-CouchDB
+Flask-PyMongo
 # kafka-python
 requests
 Flask-Session
 formic==0.9beta8
 livereload
+itsdangerous

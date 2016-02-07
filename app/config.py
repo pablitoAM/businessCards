@@ -4,8 +4,7 @@ import logging
 
 class BaseConfig(object):
     SECRET_KEY = 'development key'
-    COUCHDB_SERVER = 'http://127.0.0.1:5984'
-    COUCHDB_DATABASE = 'db_bs'
+    MONGO_URI = 'mongodb://admin:admin123@127.0.0.1:27017/bc_db'
     #SESSION_COOKIE_NAME = 'bizCards'
     #SESSION_COOKIE_SECURE = True
     #PERMANENT_SESSION_LIFETIME = 600
@@ -51,8 +50,12 @@ def configure_app(app):
 # ===============
 # Database
 # ===============
-from flaskext.couchdb import CouchDBManager
-database = CouchDBManager()
+from flask.ext.pymongo import PyMongo
+
+mongo = None
+
+def init_database(app):
+    mongo = PyMongo(app)
 
 # ===============
 # Session
@@ -87,3 +90,13 @@ def init_kafka(app):
 
     except Exception, e:
         app.logger.error('Exception creating producer: %s', str(e))
+
+# ===============
+# Timestamp Signer
+# ===============
+from itsdangerous import TimestampSigner
+
+timestamp_signer = None
+
+def init_timestamp_signer(app):
+    timestamp_signer = TimestampSigner(app.config['SECRET_KEY'])

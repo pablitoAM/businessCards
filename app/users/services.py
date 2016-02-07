@@ -20,6 +20,14 @@ def list():
 def view(username):
 	return find_user(username)
 
+# Check User
+def check(username, password):
+	user = find_user(username)
+	if(user != None and user.password == password):
+		return True
+	else:
+		raise JsonException(601, 'User '+username+' not found.')
+
 # Create User
 def create(data):
 	if username in data and password in data:		
@@ -62,6 +70,7 @@ def setRandomData():
 	for i in range(10):
 		user = User(username='u' + str(i), password='p' + str(i))
 		user.store()
+
 
 # ===============
 # Private Methods

@@ -1,5 +1,4 @@
 from app.config import database
-from flaskext.couchdb import ViewDefinition, ViewResults, Document, TextField, IntegerField, LongField, BooleanField, Row
 
 # ===============
 #  User
@@ -44,7 +43,7 @@ find_user = ViewDefinition('user', 'find_user', '''\
 		if(doc.username){
 			emit(doc.username, doc)
 		}	
-	}''')
+	}''', wrapper=User)
 
 # Counts the number of users with the given username
 count_by_username = ViewDefinition('user', 'count_by_username', '''\

@@ -1,5 +1,7 @@
 import json
-from flask import Blueprint
+from app.users import services as user_services
+import services as auth_services
+from flask import Blueprint, request
 auth = Blueprint('auth', __name__)
 
 # ==============
@@ -7,11 +9,14 @@ auth = Blueprint('auth', __name__)
 # ==============
 @auth.route('/login', methods = ['POST'])
 def login():
-	data = request.get_data()
-	# check credentials
-	# store credentials in session
-	print data;
-	return json.dumps(result=data)
+	print request.form
+	print request.args
+	print request.data
+	username = request.form['username']
+	password = request.form['password']
+	if user_services.check(username,password):
+		token = auth_services.create_token(username, password)
+		return json.dumps(token)		
 
 @auth.route('/logout', methods = ['GET'])
 def logout():

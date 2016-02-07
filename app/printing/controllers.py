@@ -13,6 +13,7 @@ from app.users import services as user_services
 def print_new(number):
 	data = request.get_json()
 	print data
+	print request.get_data()
 	#data = json.loads(request.form)
 	print request.values
 	return json.dumps(data)

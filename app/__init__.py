@@ -1,10 +1,10 @@
 from flask import Flask
-from app.config import configure_app, init_kafka
+from app.config import configure_app, init_database, init_kafka, init_timestamp_signer
 from app.auth.controllers import auth
 from app.users.controllers import users
 from app.printing.controllers import printing
 from app.main.controllers import errors
-from app.config import database
+from app.config import mongo
 from app.config import session
 
 # ===============
@@ -13,9 +13,10 @@ from app.config import session
 app = Flask(__name__)
 
 configure_app(app)
-database.setup(app)    
+init_database(app) 
 session.init_app(app)
 # init_kafka(app)
+init_timestamp_signer(app)
 
 # ===============
 # Blueprints
