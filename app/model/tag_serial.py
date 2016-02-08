@@ -1,15 +1,14 @@
-from app.config import database
-from flaskext.couchdb import ViewDefinition, ViewResults, Document, TextField, IntegerField, LongField
-
 # ===============
 # Label
 # ===============
 
-class TagSerial(Document):
-	username = TextField()
-	companyCode = LongField()
-	product = LongField()
-	nextSerial = LongField()
+class TagSerial(object):
+
+	def __init__(self, username, companyCode, product, nextSerial):
+		self.username = username
+		self.companyCode = companyCode
+		self.product = product
+		self.nextSerial = nextSerial
 
 	def serialize(self):
 		return {
@@ -18,5 +17,3 @@ class TagSerial(Document):
 		'product' : self.product,
 		'nextSerial' : self.nextSerial
 		}
-
-database.add_document(TagSerial)

@@ -1,7 +1,6 @@
-from flaskext.couchdb import ViewResults
-from app.config import database
 from app.model.user import * 
 from app.model.exception import JsonException
+from app import mongo
 
 # ===============
 # User Services
@@ -9,67 +8,54 @@ from app.model.exception import JsonException
 
 # List Users
 def list():
-	results = user_list()
-	return_list = []
-	if results.total_rows > 0:
-		for user in results.rows:
-			return_list.append(user.serialize())
-	return return_list
+	print mongo.db.user.find({'active' : True})
 
-# View User
-def view(username):
-	return find_user(username)
+# Find User
+def find(username):
+	return mongo.db.user.find({'username': username})
 
 # Check User
 def check(username, password):
-	user = find_user(username)
-	if(user != None and user.password == password):
-		return True
-	else:
-		raise JsonException(601, 'User '+username+' not found.')
+	return mongo.db.user.find({'$and' :[{'username': username}, {'password': password}]})
 
 # Create User
-def create(data):
+def create(data):	
 	if username in data and password in data:		
-		user = count_by_username(data)
+		user = find(data.username)
 		if user == None:
-			user = User(username=data.username, password = data.password)
-			_merge(user, data)
-			user.store()
+			mongo.db.user.insert_one(data)
 		else:
 			raise JsonException(602, 'User with username ' +user.username+ ' already exists.')
 	else:
 		raise JsonException(603, 'No username nor password received for the user creation.')
-
 	return True
 
 # Update User
 def update(username, data):
 	# finds the user 
-	user = find_user(username)
-	if(user == None):
+	user = find(username)
+	if user == None:
 		raise JsonException(601, 'User '+username+' not found.')
 	else:
-		_merge(user, data)				
-		user.store()
+		_merge(user, data)
+		mongo.db.user.update({ '_id': user._id }, { '$set': {data} })
 	return True
 
 # Delete User
 def delete(username):
 	# finds the user
 	user = find_user(username)
-	if(user == None):
+	if user == None:
 		raise JsonException(601, 'User '+username+' not found.')
-	else:
-		user.active = False
-		user.store()
+	else:		
+		mongo.db.user.update({ '_id': user._id }, { '$set': {'active' : False} })
 	return True
 
 # Def
 def setRandomData():
-	for i in range(10):
-		user = User(username='u' + str(i), password='p' + str(i))
-		user.store()
+	print 'Services Mongo!! %s' % mongo
+	mongo.db.user.insert_many([{'username': 'u' + str(i), 'password' : 'p' + str(i)} for i in range(10)])
+	return True
 
 
 # ===============

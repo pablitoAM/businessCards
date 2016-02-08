@@ -1,18 +1,16 @@
-from app.config import database
-
 # ===============
 #  User
 # ===============
 
-class User(Document):
-	username = TextField()
-	password = TextField()
-	display_name = TextField()
-	phone = TextField()
-	email = TextField()
-	counter = IntegerField(default=0)
-	active = BooleanField(default=True)
-	projectId = LongField()
+class User(object):
+
+	def __init__(self, username, password):
+		self.username = username
+		self.password = password
+		self.counter = 0
+		self.active = True
+
+
 
 	def serialize(self):
 		return {
@@ -23,41 +21,5 @@ class User(Document):
 		'counter': self.counter,
 		'projectId': self.projectId,
 		'active' : self.active
-		}
+	}		
 
-		database.add_document(User)
-
-# ===============
-# Views
-# ===============
-
-# Finds all the users
-user_list = ViewDefinition('user', 'user_list', '''\
-	function(doc) {    	
-		emit(doc);       
-	}''', wrapper=User)
-
-# Finds the user with the given key
-find_user = ViewDefinition('user', 'find_user', '''\
-	function(doc) {
-		if(doc.username){
-			emit(doc.username, doc)
-		}	
-	}''', wrapper=User)
-
-# Counts the number of users with the given username
-count_by_username = ViewDefinition('user', 'count_by_username', '''\
-	function(doc) {
-		if(doc.username){
-			emit(doc.username, doc)
-		}	
-	}''', '''\
-	function(keys, values) {
-		var sum = 0;
-			for(var idx in values) {
-				sum = sum + values[idx];
-		}
-		return sum;
-	}''', wrapper=Row)
-
-database.add_viewdef((user_list, find_user, count_by_username))

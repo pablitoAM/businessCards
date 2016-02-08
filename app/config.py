@@ -52,10 +52,8 @@ def configure_app(app):
 # ===============
 from flask.ext.pymongo import PyMongo
 
-mongo = None
-
 def init_database(app):
-    mongo = PyMongo(app)
+    return PyMongo(app)
 
 # ===============
 # Session
